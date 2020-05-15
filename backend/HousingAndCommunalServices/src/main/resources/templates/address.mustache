@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+    <title>Spring Security Example </title>
+</head>
+<body>
+<p>Add new address</p>
+{{#message}}
+    {{message}}
+{{/message}}
+<form action="/address/add" method="post">
+    <div><label> Город: <input type="text" name="city"/> </label></div>
+    <div><label> Улица: <input type="text" name="street"/> </label></div>
+    <div><label> Номер дома: <input type="text" name="houseNumber"/> </label></div>
+    <div><label> Управляющая компания:
+        <select id="housemanager" name="houseManager">
+            {{#housemanagers}}
+                <option value="{{id}}">{{name}}</option>
+            {{/housemanagers}}
+        </select>
+    </label></div>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <div><input type="submit" value="Добавить адрес"/></div>
+</form>
+</body>
+</html>

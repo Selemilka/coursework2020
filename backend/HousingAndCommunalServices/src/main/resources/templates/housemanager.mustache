@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+    <title>Create house manager</title>
+</head>
+<body>
+<p>Add new house manager</p>
+{{#message}}
+    {{message}}
+{{/message}}
+<form action="/housemanager/add" method="post">
+    <div><label> Название компании ЖКХ: <input type="text" name="name"/> </label></div>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <div><input type="submit" value="Добавить"/></div>
+</form>
+</body>
+</html>
