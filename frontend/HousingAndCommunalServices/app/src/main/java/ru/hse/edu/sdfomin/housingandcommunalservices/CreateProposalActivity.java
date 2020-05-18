@@ -77,7 +77,7 @@ public class CreateProposalActivity extends AppCompatActivity {
                 if (fail) return;
 
                 Address address2 = new Address(flatNumber, street, houseNumber);
-                Proposal proposal = new Proposal(textRequest, person, address2);
+                Proposal proposal = new Proposal(textRequest, "В ожидании...", person, address2);
 
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Address", Context.MODE_PRIVATE);
                 sharedPreferences.edit().putString("SavedAddress", gson.toJson(address2)).apply();

@@ -1,37 +1,37 @@
-package ru.edu.hse.sdfomin.HousingAndCommunalServices.model;
+package ru.edu.hse.sdfomin.HousingAndCommunalServices.viewModel;
 
-import javax.persistence.*;
+import ru.edu.hse.sdfomin.HousingAndCommunalServices.model.Address;
+import ru.edu.hse.sdfomin.HousingAndCommunalServices.model.Person;
+import ru.edu.hse.sdfomin.HousingAndCommunalServices.model.ProposalStatus;
 
-@Entity
-public class Proposal {
+public class ProposalView {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String text;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id")
+    private String answer;
+
     private Person person;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "address_id")
     private Address address;
 
     private ProposalStatus proposalStatus;
 
-    private String answer;
+    private String statusClass;
 
-    public Proposal() {
-    }
-
-    public Proposal(String text, Person person, Address address, String answer) {
+    public ProposalView(Long id, String text, String answer, Person person, Address address, ProposalStatus proposalStatus, String statusClass) {
+        this.id = id;
         this.text = text;
+        this.answer = answer;
         this.person = person;
         this.address = address;
-        this.answer = answer;
-        proposalStatus = ProposalStatus.PENDING;
+        this.proposalStatus = proposalStatus;
+        this.statusClass = statusClass;
+    }
+
+    public ProposalView() {
+
     }
 
     public Long getId() {
@@ -72,6 +72,14 @@ public class Proposal {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getStatusClass() {
+        return statusClass;
+    }
+
+    public void setStatusClass(String statusClass) {
+        this.statusClass = statusClass;
     }
 
     public String getAnswer() {

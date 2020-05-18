@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">HousingAndCommunalServices</string>
-    <string name="title_activity_proposal">ProposalActivity</string>
+    <string name="app_name">Управление ЖКХ</string>
+    <string name="title_activity_proposal">Управление ЖКХ</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -9,7 +9,7 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="greetings_registration">Здравствуйте! Для начала работы Вам необходимо зарегистрироваться.</string>
+    <string name="greetings_registration">Для начала работы Вам необходимо зарегистрироваться.</string>
     <string name="registration_view_name">Имя:</string>
     <string name="server_ip">http://192.168.31.210:8080</string>
 </resources>

@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "User is NULL!", Toast.LENGTH_LONG).show();
             return;
         }
-        Toast.makeText(getApplicationContext(), "Logged in! " + account.getId(), Toast.LENGTH_LONG).show();
 
         Person person = null;
 

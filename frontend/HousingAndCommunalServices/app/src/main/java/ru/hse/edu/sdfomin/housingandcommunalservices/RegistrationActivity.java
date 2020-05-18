@@ -48,13 +48,11 @@ public class RegistrationActivity extends AppCompatActivity {
         final EditText editTextFamilyName = findViewById(R.id.editTextFamilyName);
         final EditText editTextEmail = findViewById(R.id.editTextEmail);
         final EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
-        final EditText editTextAddress = findViewById(R.id.editTextAddress);
 
         editTextGivenName.setText(account.getGivenName());
         editTextFamilyName.setText(account.getFamilyName());
         editTextEmail.setText(account.getEmail());
         //   editTextPhoneNumber.setText(phoneNumber);
-        //   editTextAddress.setText(address);
 
         Button buttonRegistration = findViewById(R.id.buttonRegistration);
 
@@ -66,8 +64,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 String familyName = editTextFamilyName.getText().toString();
                 String email = editTextEmail.getText().toString();
                 String phoneNumber = editTextPhoneNumber.getText().toString();
-                String address = editTextAddress.getText().toString();
-
                 boolean fail = false;
 
                 if (TextUtils.isEmpty(givenName)) {
@@ -84,10 +80,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
                 if (TextUtils.isEmpty(phoneNumber)) {
                     editTextPhoneNumber.setError("Поле не должно быть пустым");
-                    fail = true;
-                }
-                if (TextUtils.isEmpty(address)) {
-                    editTextAddress.setError("Поле не должно быть пустым");
                     fail = true;
                 }
 

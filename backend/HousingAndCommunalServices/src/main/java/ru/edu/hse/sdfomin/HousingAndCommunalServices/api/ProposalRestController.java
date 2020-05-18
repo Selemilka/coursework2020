@@ -22,8 +22,7 @@ public class ProposalRestController {
     @GetMapping(path = "{id}")
     public Iterable<Proposal> getProposalsByGoogleId(@PathVariable("id") String id) {
         Person person = personRepo.findByGoogleId(id);
-        Iterable<Proposal> proposals = proposalRepo.findByPerson(person);
-        return proposalRepo.findByPerson(person);
+        return proposalRepo.findByPersonOrderByIdDesc(person);
     }
 
     @PostMapping

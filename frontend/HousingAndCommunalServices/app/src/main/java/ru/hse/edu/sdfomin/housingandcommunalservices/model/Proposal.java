@@ -6,6 +6,8 @@ public class Proposal {
 
     private String text;
 
+    private String answer;
+
     private Person person;
 
     private ProposalStatus proposalStatus;
@@ -15,8 +17,9 @@ public class Proposal {
     public Proposal() {
     }
 
-    public Proposal(String text, Person person, Address address) {
+    public Proposal(String text, String answer, Person person, Address address) {
         this.text = text;
+        this.answer = answer;
         this.person = person;
         this.address = address;
         proposalStatus = ProposalStatus.PENDING;
@@ -60,5 +63,13 @@ public class Proposal {
 
     public void setProposalStatus(ProposalStatus proposalStatus) {
         this.proposalStatus = proposalStatus;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

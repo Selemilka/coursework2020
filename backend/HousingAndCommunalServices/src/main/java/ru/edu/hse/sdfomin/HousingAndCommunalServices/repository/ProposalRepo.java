@@ -8,4 +8,7 @@ public interface ProposalRepo extends CrudRepository<Proposal, Long> {
 
     Iterable<Proposal> findByPerson(Person person);
 
+    Iterable<Proposal> findByPersonOrderByIdDesc(Person person);
+
+    Iterable<Proposal> findAllByOrderByIdDesc();
 }

@@ -6,21 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +14,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jetbrains.annotations.NotNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -54,6 +48,7 @@ public class ProposalActivity extends AppCompatActivity {
     ArrayList<Proposal> proposals;
     ListView listView;
     ProposalAdapter proposalAdapter;
+    GoogleSignInAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +59,7 @@ public class ProposalActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final Person person = (Person) Objects.requireNonNull(getIntent().getExtras()).get("person");
-        final GoogleSignInAccount account = (GoogleSignInAccount) Objects.requireNonNull(getIntent().getExtras()).get("account");
+        account = (GoogleSignInAccount) Objects.requireNonNull(getIntent().getExtras()).get("account");
         listView = findViewById(R.id.listView);
 
         proposals = new ArrayList<>();
@@ -81,14 +76,7 @@ public class ProposalActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 try {
-
                     new GetProposalsTask2().execute(account).get();
-                  /*  proposalAdapter.clear();
-                    proposalAdapter.addAll(proposals);
-                    listView.invalidateViews();
-                    proposalAdapter.notifyDataSetChanged();
-                    proposalAdapter.notify();
-                    listView.refreshDrawableState();*/
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -107,13 +95,13 @@ public class ProposalActivity extends AppCompatActivity {
         });
     }
 
-    private class ProposalAdapter extends ArrayAdapter<Proposal> {
+    private static class ProposalAdapter extends ArrayAdapter<Proposal> {
 
         private Context mContext;
         private List<Proposal> proposalList;
 
         ProposalAdapter(@NonNull Context context, ArrayList<Proposal> list) {
-            super(context, 0 , list);
+            super(context, 0, list);
             mContext = context;
             proposalList = list;
         }
@@ -122,8 +110,8 @@ public class ProposalActivity extends AppCompatActivity {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View listItem = convertView;
-            if(listItem == null)
-                listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item,parent,false);
+            if (listItem == null)
+                listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
 
             Proposal currentProposal = proposalList.get(position);
 
@@ -131,9 +119,21 @@ public class ProposalActivity extends AppCompatActivity {
             name.setText(currentProposal.getText());
 
             TextView release = listItem.findViewById(R.id.textViewProposalStatus);
-            release.setText(currentProposal.getProposalStatus().toString());
+            if (currentProposal.getAnswer() == null)
+                currentProposal.setAnswer("");
+            release.setText(currentProposal.getAnswer());
 
-            listItem.setBackgroundColor(Color.GREEN);
+            switch (currentProposal.getProposalStatus()) {
+                case PENDING:
+                    listItem.setBackgroundColor(Color.rgb(253, 238, 189));
+                    break;
+                case ACCEPTED:
+                    listItem.setBackgroundColor(Color.rgb(196, 230, 204));
+                    break;
+                case REJECTED:
+                    listItem.setBackgroundColor(Color.rgb(243, 197, 204));
+                    break;
+            }
 
             return listItem;
         }
@@ -155,14 +155,16 @@ public class ProposalActivity extends AppCompatActivity {
             try {
                 try (Response response = client.newCall(request).execute()) {
 
-                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                    if (!response.isSuccessful())
+                        throw new IOException("Unexpected code " + response);
 
                     Headers responseHeaders = response.headers();
                     for (int i = 0; i < responseHeaders.size(); i++) {
                         System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                     }
 
-                    Type listType = new TypeToken<ArrayList<Proposal>>(){}.getType();
+                    Type listType = new TypeToken<ArrayList<Proposal>>() {
+                    }.getType();
                     proposals = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), listType);
                 }
             } catch (Exception ex) {
@@ -174,11 +176,23 @@ public class ProposalActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Proposal> proposals2) {
             super.onPostExecute(proposals2);
-            Toast.makeText(getApplicationContext(), gson.toJson(proposals2), Toast.LENGTH_LONG).show();
+            if (proposals2.isEmpty()) {
+                proposals2.add(new Proposal("У вас нет заявок! Чтобы создать заявку, нажмите на значок письма снизу справа", "", null, null));
+            }
             proposals.clear();
             proposals.addAll(proposals2);
             proposalAdapter.notifyDataSetChanged();
             swipeLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            new GetProposalsTask2().execute(account).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
