@@ -1,6 +1,5 @@
 package ru.edu.hse.sdfomin.HousingAndCommunalServices.controller;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +37,7 @@ public class MainController {
         model.put("houses", houses);
         return "main";
     }
-
+/*
     @PostMapping("add")
     public String add(
             @AuthenticationPrincipal User user,
@@ -53,12 +52,5 @@ public class MainController {
         model.put("proposals", proposals);
         return "main";
     }
-
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String, Object> model) {
-        Iterable<Proposal> proposals = filter == null || filter.isBlank() ?
-                proposalRepo.findAll() : proposalRepo.findByTag(filter);
-        model.put("proposals", proposals);
-        return "main";
-    }
+*/
 }

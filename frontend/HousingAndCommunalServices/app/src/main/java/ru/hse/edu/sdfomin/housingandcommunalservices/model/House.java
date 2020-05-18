@@ -1,25 +1,15 @@
-package ru.edu.hse.sdfomin.HousingAndCommunalServices.model;
+package ru.hse.edu.sdfomin.housingandcommunalservices.model;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
 public class House {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id")
     private List<Person> persons;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "house_mamager_id")
     private HouseManager houseManager;
 
     public House() {

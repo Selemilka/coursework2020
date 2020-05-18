@@ -4,7 +4,6 @@
 <div>
     <form action="/logout" method="post">
         <input type="submit" value="Sign Out"/>
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
     </form>
     <form method="post" action="add">
         <label>
@@ -13,7 +12,6 @@
         <label>
             <input type="text" name="tag" placeholder="Тэг">
         </label>
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
         <label>
             <select id="house" name="house">
                 {{#houses}}
@@ -29,7 +27,6 @@
     <label>
         <input type="text" name="filter">
     </label>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
     <button type="submit">Найти</button>
 </form>
 {{#proposals}}

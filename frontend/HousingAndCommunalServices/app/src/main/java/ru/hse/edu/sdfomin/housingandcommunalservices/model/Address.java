@@ -1,15 +1,7 @@
-package ru.edu.hse.sdfomin.HousingAndCommunalServices.model;
+package ru.hse.edu.sdfomin.housingandcommunalservices.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
 public class Address {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String flatNumber;
@@ -39,8 +31,8 @@ public class Address {
         return flatNumber;
     }
 
-    public void setFlatNumber(String city) {
-        this.flatNumber = city;
+    public void setFlatNumber(String flatNumber) {
+        this.flatNumber = flatNumber;
     }
 
     public String getStreet() {

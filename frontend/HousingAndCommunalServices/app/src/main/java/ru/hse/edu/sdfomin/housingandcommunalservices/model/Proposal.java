@@ -1,25 +1,16 @@
-package ru.edu.hse.sdfomin.HousingAndCommunalServices.model;
+package ru.hse.edu.sdfomin.housingandcommunalservices.model;
 
-import javax.persistence.*;
-
-@Entity
 public class Proposal {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String text;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id")
     private Person person;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "address_id")
-    private Address address;
-
     private ProposalStatus proposalStatus;
+
+    private Address address;
 
     public Proposal() {
     }
@@ -55,19 +46,19 @@ public class Proposal {
         this.person = person;
     }
 
-    public ProposalStatus getProposalStatus() {
-        return proposalStatus;
-    }
-
-    public void setProposalStatus(ProposalStatus proposalStatus) {
-        this.proposalStatus = proposalStatus;
-    }
-
     public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public ProposalStatus getProposalStatus() {
+        return proposalStatus;
+    }
+
+    public void setProposalStatus(ProposalStatus proposalStatus) {
+        this.proposalStatus = proposalStatus;
     }
 }
